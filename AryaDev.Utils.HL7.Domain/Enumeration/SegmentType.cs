@@ -196,16 +196,16 @@ public enum SegmentType
     TimingQuantityRelationship,
     
     [SegmentInfo("DSP", SegmentChapter.Query)]
-    [Description("The DSP segment is used to contain data that has been preformatted by the sender for display. The\nsemantic content of the data is lost; the data is simply treated as lines of text.")]
+    [Description("The DSP segment is used to contain data that has been preformatted by the sender for display. The semantic content of the data is lost; the data is simply treated as lines of text.")]
     DisplayData,
     [SegmentInfo("QAK", SegmentChapter.Query)]
-    [Description("The QAK segment contains information sent with responses to a query. The QAK segment may appear as\nan optional segment placed after the (optional) ERR segment in any query response (message) to any\noriginal mode query")]
+    [Description("The QAK segment contains information sent with responses to a query. The QAK segment may appear as an optional segment placed after the (optional) ERR segment in any query response (message) to any original mode query")]
     QueryAcknowledgement,
     [SegmentInfo("QID", SegmentChapter.Query)]
-    [Description("The QID segment contains the information necessary to uniquely identify a query. Its primary use is in\nquery cancellation or subscription cancellation.\n")]
+    [Description("The QID segment contains the information necessary to uniquely identify a query. Its primary use is in query cancellation or subscription cancellation. ")]
     QueryIdentification,
     [SegmentInfo("QPD", SegmentChapter.Query)]
-    [Description("The QPD segment defines the parameters of the query.\n")]
+    [Description("The QPD segment defines the parameters of the query. ")]
     QueryParameterIdentification,
     [SegmentInfo("QRD", SegmentChapter.Query)]
     [Description("QRD is the older query-definition segment used before QPD/RCP became the cleaner pattern.")]
@@ -216,13 +216,13 @@ public enum SegmentType
     [Obsolete("Withdrawn in v2.4")]
     OriginalStyleQueryFilter,
     [SegmentInfo("QRI", SegmentChapter.Query)]
-    [Description("The QRI segment is used to indicate the weight match for a returned record (where the responding system\nemploys a numeric algorithm) and/or the match reason code (where the responding system uses rules or\nother match options).")]
+    [Description("The QRI segment is used to indicate the weight match for a returned record (where the responding system employs a numeric algorithm) and/or the match reason code (where the responding system uses rules or other match options).")]
     QueryResponseInstance,
     [SegmentInfo("RCP", SegmentChapter.Query)]
-    [Description("The RCP segment is used to restrict the amount of data that should be returned in response to query.\n")]
+    [Description("The RCP segment is used to restrict the amount of data that should be returned in response to query. ")]
     ResponseControlParameter,
     [SegmentInfo("RDF", SegmentChapter.Query)]
-    [Description("The RDF segment defines the content of the row data segments (RDT) in the tabular response (RTB).\n")]
+    [Description("The RDF segment defines the content of the row data segments (RDT) in the tabular response (RTB). ")]
     TableRowDefinition,
     [SegmentInfo("RDT", SegmentChapter.Query)]
     [Description("The RDT segment contains the row data of the tabular data response message (TBR).")]
@@ -235,184 +235,188 @@ public enum SegmentType
     ResultsUpdateSelectionCriteria,
     
     [SegmentInfo("ABS", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("This segment was created to communicate patient abstract information used for billing and reimbursement purposes. \"Abstract\" is a condensed form of medical history created for analysis, care planning, etc.")]
     Abstract,
     [SegmentInfo("ACC", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The ACC segment contains patient information relative to an accident in which the patient has been involved.")]
     Accident,
     [SegmentInfo("BLC", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The BLC segment contains data necessary to communicate patient abstract blood information used for billing and reimbursement purposes. This segment is repeating to report blood product codes and the associated blood units.")]
     BloodCode,
     [SegmentInfo("DG1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The DG1 segment contains patient diagnosis information of various types, for example, admitting, primary, etc. The DG1 segment is used to send multiple diagnoses (for example, for medical records encoding).")]
     Diagnosis,
     [SegmentInfo("DRG", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The DRG segment contains diagnoses-related grouping information of various types. The DRG segment is used to send the DRG information, for example, for billing and medical records encoding. ")]
     DiagnosisRelatedGroup,
     [SegmentInfo("FT1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The FT1 segment contains the detail data necessary to post charges, payments, adjustments, etc., to patient accounting records.")]
     FinancialTransaction,
     [SegmentInfo("GP1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("These fields are used in grouping and reimbursement for CMS APCs. Please refer to the \"Outpatient Prospective Payment System Final Rule\" (\"OPPS Final Rule\") issued by CMS.")]
     GroupingReimbursementVisit,
     [SegmentInfo("GP2", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("This segment is used for items that pertain to each HCPC/CPT line item.")]
     GroupingReimbursementProcedureLineItem,
     [SegmentInfo("GT1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The GT1 segment contains guarantor (e.g., the person or the organization with financial responsibility for payment of a patient account) data for patient and insurance billing applications.")]
     Guarantor,
     [SegmentInfo("IN1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The IN1 segment contains insurance policy coverage information necessary to produce properly pro-rated and patient and insurance bills. ")]
     Insurance,
     [SegmentInfo("IN2", SegmentChapter.FinancialManagement)]
-    [Description("")]
-    InsuranceAdditionaInformation,
+    [Description("The IN2 segment contains additional insurance policy coverage and benefit information necessary for proper billing and reimbursement. Fields used by this segment are defined by CMS or other regulatory agencies.")]
+    InsuranceAdditionalInformation,
     [SegmentInfo("IN3", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The IN3 segment contains additional insurance information for certifying the need for patient care. Fields used by this segment are defined by CMS, or other regulatory agencies.")]
     InsuranceAdditionalInformationCertification,
     [SegmentInfo("PR1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The PR1 segment contains information relative to various types of procedures that can be performed on a patient. The PR1 segment can be used to send procedure information, for example: Surgical, Nuclear Medicine, X-ray with contrast, etc. The PR1 segment is used to send multiple procedures, for example, for medical records encoding or for billing systems.")]
     Procedures,
     [SegmentInfo("RMI", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The RMI segment is used to report an occurrence of an incident event pertaining or attaching to a patient encounter")]
     RiskManagementIncident,
     [SegmentInfo("UB1", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The UB1 segment contains data specific to the United States. Only billing/claims fields that do not exist in other HL7 defined segments appear in this segment. The codes listed as examples are not an exhaustive or current list.")]
+    [Obsolete("The UB1 segment was deprecated as of v 2.3 and the detail was withdrawn and removed from the standard as of v 2.6.")]
     Ub82,
     [SegmentInfo("UB2", SegmentChapter.FinancialManagement)]
-    [Description("")]
+    [Description("The UB2 segment contains data necessary to complete UB92 bills specific to the United States. Realms outside the US are referred to chapter 16. Only Uniform Billing fields that do not exist in other HL7 defined segments appear in this segment. For example, Patient Name and Date of Birth are required; they are included in the PID segment and therefore do not appear here. Uniform Billing field locators are provided in parentheses ( ). The UB codes listed as examples are not an exhaustive or current list; refer to a UB specification for additional information.")]
     UniformBillingData,
     
     [SegmentInfo("CSP", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The CSP segment contains information on a patient's status for a particular phase of the study. This segment is optional and is useful when a study has different evaluation intervals within it.")]
     ClinicalStudyPhase,
     [SegmentInfo("CSR", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The CSR segment will contain fundamental administrative and regulatory information required to document a patient's enrollment on a clinical trial. This segment is all that is required if one needs to message another system that an enrollment has taken place, i.e., from clinical trials to pharmacy, accounting, or order entry systems.")]
     ClinicalStudyRegistration,
     [SegmentInfo("CSS", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The Clinical Study Data Schedule (CSS) segment is optional depending on whether messaging of study data needs to be linked to the scheduled data time points for the study.")]
     ClinicalStudyDataScheduleSegment,
     [SegmentInfo("CTI", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The CTI segment is an optional segment that contains information to identify the clinical trial, phase and time point with which an order or result is associated.")]
     ClinicalTrialIdentification,
     [SegmentInfo("FAC", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("FAC describes a facility record, including identifiers, names, contact details, and service attributes.")]
+    [Obsolete("This segment is maintained for backwards compatibility only as of v2.7.")]
     Facility,
     [SegmentInfo("OBX", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The OBX segment is used to transmit a single observation or observation fragment. It represents the smallest indivisible unit of a report. The OBX segment can also contain encapsulated data, e.g., a CDA document or a DICOM image. ")]
     ObservationResult,
     [SegmentInfo("PAC", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The intent of this segment is to describe the information associated with the shipping package specimens are sent in. ")]
     ShipmentPackage,
     [SegmentInfo("PCR", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The PCR segment is used to communicate a potential or suspected relationship between a product (drug or device) or test and an event with detrimental effect on a patient. This segment identifies a potential causal relationship between the product identified in this segment and the event identified in the PEO segment.")]
     PossibleCausalRelationship,
     [SegmentInfo("PDC", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("PDC carries country-specific product detail, especially for product safety and regulatory reporting.")]
+    [Obsolete("This segment is maintained for backwards compatibility only as of v2.7.")]
     ProductDetailCountry,
     [SegmentInfo("PEO", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("Details related to a particular clinical experience or event are embodied in the PEO segment. This segment can be used to characterize an event which might be attributed to a product to which the patient was exposed. Products with a possible causal relationship to the observed experience are described in the following PCR (possible causal relationship) segments.")]
     ProductExperienceObservation,
     [SegmentInfo("PES", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("PES identifies the sender and submission context for a product-experience report.")]
     ProductExperienceSender,
     [SegmentInfo("PRT", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The Participation Information segment contains the data necessary to add, update, correct, and delete from the record persons, organizations, devices, or locations (participants) participating in the activity being transmitted.")]
     ParticipationInformation,
     [SegmentInfo("PSH", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("PSH is the product summary header for product safety or regulatory product reporting.")]
+    [Obsolete("This segment is maintained for backwards compatibility only as of v2.7.")]
     ProductSummaryHeader,
     [SegmentInfo("SHP", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The intent of this segment is to describe the information associated with the transportation of the shipment. ")]
     Shipment,
     [SegmentInfo("SPM", SegmentChapter.ObservationReporting)]
-    [Description("")]
+    [Description("The intent of this segment is to describe the characteristics of a specimen. It differs from the intent of the OBR in that the OBR addresses order-specific information. It differs from the SAC segment in that the SAC addresses specimen container attributes")]
     Specimen,
     
     [SegmentInfo("CDM", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("CDM is a charge-description master row, used to distribute charge codes, prices, descriptions, and effective dates.")]
     ChargeDescriptionMaster,
     [SegmentInfo("CM0", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("CM0 is the master record for a clinical study, carrying the study identifier, sponsor, chair, timing, and related administrative details.")]
     ClinicalStudyMaster,
     [SegmentInfo("CM1", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("CM1 defines a phase within a clinical study, so messages can refer to trial stages consistently.")]
     ClinicalStudyPhaseMaster,
     [SegmentInfo("CM2", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("CM2 describes study schedule timing, including when events are planned within a clinical-study protocol.")]
     ClinicalStudyScheduleMaster,
     [SegmentInfo("CTR", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The main purpose of this integration point is to assign the contract price to the supply items.")]
     ContractMasterOutbound,
     [SegmentInfo("DMI", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("DMI carries DRG Master File Information information in HL7 v2.9 messages.")]
     DrgMasterFileInformation,
     [SegmentInfo("DPS", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("When MFI-1 is MLCP (Medical Limited Coverage Process) this segment is identifing what is in limited coverage. When MFI-1 is MACP (Medical Approved Coverage Process) this segment is identifing what is approved. This segment defines the test that are approved for a given Diagnosis Code based on the Procedure Code.")]
     DiagnosisAndProcedureCodeSegment,
     [SegmentInfo("LCC", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The optional LCC segment identifies how a patient location room can be billed by a certain department. A department can use different charge codes for the same room or bed, so there can be multiple LCC segments following an LDP segment.")]
     LocationChargeCode,
     [SegmentInfo("LCH", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The LCH segment is used to identify location characteristics which determine which patients will be assigned to the room or bed. It contains the location characteristics of the room or bed identified in the preceding LOC segment. There should be one LCH segment for each attribute.")]
     LocationCharacteristic,
     [SegmentInfo("LDP", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The LDP segment identifies how a patient location room is being used by a certain department. Multiple departments can use the same patient location, so there can be multiple LDP segments following an LOC segment. There must be at least one LDP segment for each LOC segment. This is not intended to include any current occupant information.")]
     LocationDepartment,
     [SegmentInfo("LOC", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The LOC segment can identify any patient location referenced by information systems. This segment gives physical set up information about the location. This is not intended to include any current occupant or current use information.")]
     LocationIdentification,
     [SegmentInfo("LRL", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The LRL segment is used to identify one location's relationship to another location, the nearest lab, pharmacy, etc.")]
     LocationRelationship,
     [SegmentInfo("MCP", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The Technical Steward for the PM1 segment is Orders and Observations. For the payer defined in PM1-1 and the service provider defined in MFE-4: When MFI-1 is MLCP (Medical Limited Coverage Process) this segment is identifing what is in limited coverage. When MFI-1 is MACP (Medical Approved Coverage Process) this segment is identifing what is approved. This segment defines the tests that are approved for a given Diagnosis Code based on the Procedure Code.")]
     MasterFileCoverage,
     [SegmentInfo("MFA", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("MFA acknowledges the result of applying a master-file entry update.")]
     MasterFileAcknowledgement,
     [SegmentInfo("MFE", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("MFE describes one master-file entry action, including the key value and effective timing.")]
     MasterFileEntry,
     [SegmentInfo("MFI", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("MFI identifies the master file being maintained and sets the file-level update context.")]
     MasterFileIdentification,
     [SegmentInfo("OM1", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM1 is the general service/test/observation master record, the broad catalog entry many order and result workflows depend on.")]
     GeneralSegment,
     [SegmentInfo("OM2", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM2 adds numeric observation attributes such as ranges, units, precision, and expected values.")]
     NumericObservation,
     [SegmentInfo("OM3", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM3 adds categorical observation attributes and answer-set style configuration.")]
     CategoricalServiceTestObservation,
     [SegmentInfo("OM4", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM4 describes specimen requirements for observations and services.")]
     ObservationsThatRequireSpecimens,
     [SegmentInfo("OM5", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM5 defines observation batteries or sets, tying individual observations into ordered groups.")]
     ObservationBatteriesSets,
     [SegmentInfo("OM6", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM6 describes observations calculated from other observations.")]
     ObservationsThatAreCalculatedFromOtherObservations,
     [SegmentInfo("OM7", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("OM7 carries additional service/test attributes such as categorization, consent, departments, and reporting rules.")]
     AdditionalBasicAttributes,
     [SegmentInfo("OMC", SegmentChapter.MasterFiles)]
     [Description("")]
     SupportingClinicalInformation,
     [SegmentInfo("PM1", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("The PM1 segment contains per insurance company (payer) the policies specific to their organization. Trailing this segment in the message structure are either the Limited Coverage Policy or the Approved Coverage Policy. If an insurance company is listed they have limited coverage. Note, the first 10 fields come directly from the IN1 segment.")]
     PayerMasterFile,
     [SegmentInfo("PRC", SegmentChapter.MasterFiles)]
-    [Description("")]
+    [Description("PRC carries pricing rules for a charge, product, or service master item.")]
     Pricing,
     
     [SegmentInfo("CON", SegmentChapter.MedicalRecords_InformationManagement)]
-    [Description("")]
+    [Description("This segment identifies patient consent information relating to a particular message. It can be used as part of existing messages to convey information about patient consent to procedures, admissions, information release/exchange or other events discussed by the message.")]
     ConsentSegment,
     [SegmentInfo("TXA", SegmentChapter.MedicalRecords_InformationManagement)]
-    [Description("")]
+    [Description("The TXA segment contains information specific to a transcribed document but does not include the text of the document. The message is created as a result of a document status change. This information updates other healthcare systems and allows them to identify reports that are available in the transcription system.")]
     TranscriptionDocumentHeader,
     
     [SegmentInfo("AIG", SegmentChapter.Scheduling)]
