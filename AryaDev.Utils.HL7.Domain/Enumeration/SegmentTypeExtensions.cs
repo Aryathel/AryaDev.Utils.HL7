@@ -14,12 +14,6 @@ public static class SegmentTypeExtensions
     public static SegmentChapter GetChapter(this SegmentType segmentType) =>
         GetSegmentInfo(segmentType).Chapter;
 
-    public static bool IsOptional(this SegmentType segmentType) =>
-        GetSegmentInfo(segmentType).Optional;
-
-    public static bool IsRepeatable(this SegmentType segmentType) =>
-        GetSegmentInfo(segmentType).Repeatable;
-
     public static string? GetDescription(this SegmentType segmentType)
     {
         var field = typeof(SegmentType).GetField(segmentType.ToString());

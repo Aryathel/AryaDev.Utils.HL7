@@ -30,10 +30,10 @@ public enum SegmentType
     [SegmentInfo("FTS", SegmentChapter.Control)]
     [Description("The FTS segment defines the end of a file.")]
     FileTrailer,
-    [SegmentInfo("MSA", SegmentChapter.Control, repeatable: false)]
+    [SegmentInfo("MSA", SegmentChapter.Control)]
     [Description("The MSA segment contains information sent while acknowledging another message.")]
     MessageAcknowledgement,
-    [SegmentInfo("MSH", SegmentChapter.Control, repeatable: false)]
+    [SegmentInfo("MSH", SegmentChapter.Control)]
     [Description("The MSH segment defines the intent, source, destination, and some specifics of the syntax of a message.")]
     MessageHeader,
     [SegmentInfo("NTE", SegmentChapter.Control)]
