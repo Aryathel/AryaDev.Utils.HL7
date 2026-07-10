@@ -2,12 +2,6 @@
 
 A .NET library for working with [HL7 v2.9.1](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649) pipe-delimited messages. Messages are deserialized into a string-based model and fields are accessed using standard HL7 location notation (for example, `PID.5.1` or `PV1.3.2.1`).
 
-## HL7 Reference Documentation
-
-- [HL7 v2.9.1 Product Brief](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649)
-- [HL7 v2.x Segment Definitions (v2plus)](https://v2plus.hl7.org/2021Jan/segment-definitions.html)
-- [HL7 v2.x Data Types](https://v2plus.hl7.org/2021Jan/data-types.html)
-
 ## Solution Structure
 
 | Project | Purpose |
