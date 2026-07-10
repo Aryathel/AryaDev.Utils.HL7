@@ -24,6 +24,12 @@ internal static class HL7MessageWriter
         return builder.ToString();
     }
 
+    internal static byte[] WriteBytes(HL7Message message)
+    {
+        var text = Write(message);
+        return message.TextEncoding.GetBytes(text);
+    }
+
     private static string WriteSegment(Segment segment, Hl7EncodingCharacters encoding)
     {
         var separator = encoding.FieldSeparator;

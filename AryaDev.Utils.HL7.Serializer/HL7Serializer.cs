@@ -6,5 +6,9 @@ public class HL7Serializer
 {
     public HL7Message Deserialize(string raw) => HL7MessageReader.Read(raw);
 
+    public HL7Message Deserialize(byte[] raw) => HL7MessageReader.Read(raw);
+
     public string Serialize(HL7Message message) => HL7MessageWriter.Write(message);
+
+    public byte[] SerializeBytes(HL7Message message) => HL7MessageWriter.WriteBytes(message);
 }

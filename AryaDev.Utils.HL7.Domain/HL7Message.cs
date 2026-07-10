@@ -7,15 +7,31 @@ public class HL7Message
 {
     private readonly List<Segment> _segments;
 
-    public HL7Message(IEnumerable<Segment>? segments = null, Hl7EncodingCharacters? encoding = null)
+    public HL7Message(
+        IEnumerable<Segment>? segments = null,
+        Hl7EncodingCharacters? encoding = null,
+        string? characterSet = null,
+        System.Text.Encoding? textEncoding = null)
     {
         _segments = segments?.ToList() ?? [];
         Encoding = encoding ?? Hl7EncodingCharacters.Default;
+        CharacterSet = characterSet;
+        TextEncoding = textEncoding ?? Hl7CharacterSet.GetEncoding(characterSet);
     }
 
     public IReadOnlyList<Segment> Segments => _segments;
 
     public Hl7EncodingCharacters Encoding { get; set; }
+
+    /// <summary>
+    /// Raw MSH-18 character set value. When null or empty, ASCII is used.
+    /// </summary>
+    public string? CharacterSet { get; set; }
+
+    /// <summary>
+    /// .NET encoding resolved from <see cref="CharacterSet"/> (defaults to ASCII).
+    /// </summary>
+    public System.Text.Encoding TextEncoding { get; set; }
 
     public string? this[string path]
     {
