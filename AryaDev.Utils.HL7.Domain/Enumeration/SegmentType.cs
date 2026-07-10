@@ -420,199 +420,199 @@ public enum SegmentType
     TranscriptionDocumentHeader,
     
     [SegmentInfo("AIG", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The AIG segment contains information about various kinds of resources (other than those with specifically defined segments in this chapter) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule request using this segment. Resources described by this segment are general kinds of resources, such as equipment, that are identified with a simple identification code.")]
     AppointmentInformationGeneralResource,
     [SegmentInfo("AIL", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The AIL segment contains information about location resources (meeting rooms, operating rooms, examination rooms, or other locations) that can be scheduled. Resources included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Resources not controlled by a schedule are not identified on a schedule request using this segment. Location resources are identified with this specific segment because of the specific encoding of locations used by the HL7 specification.")]
     AppointmentInformationLocationResource,
     [SegmentInfo("AIP", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The AIP segment contains information about the personnel types that can be scheduled. Personnel included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Personnel not controlled by a schedule are not identified on a schedule request using this segment. The kinds of personnel described on this segment include any healthcare provider in the institution controlled by a schedule (for example: technicians, physicians, nurses, surgeons, anesthesiologists, or CRNAs).")]
     AppointmentInformationPersonnelResource,
     [SegmentInfo("AIS", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The AIS segment contains information about various kinds of services that can be scheduled. Services included in a transaction using this segment are assumed to be controlled by a schedule on a schedule filler application. Services not controlled by a schedule are not identified on a schedule request using this segment.")]
     AppointmentInformation,
     [SegmentInfo("APR", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The APR segment contains parameters and preference specifications used for requesting appointments in the SRM message. It allows placer applications to provide coded parameters and preference indicators to the filler application, to help determine when a requested appointment should be scheduled. An APR segment can be provided in conjunction with either the ARQ segment or any of the service and resource segments (AIG, AIS, AIP , and AIL). If an APR segment appears in conjunction with an ARQ segment, its parameters and preference indicators pertain to the schedule request as a whole. If the APR segment appears with any of the service and resource segments, then its parameters and preferences apply only to the immediately preceding service or resource.")]
     AppointmentPreference,
     [SegmentInfo("ARQ", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The ARQ segment defines a request for the booking of an appointment. It is used in transactions sent from an application acting in the role of a placer.")]
     AppointmentRequest,
     [SegmentInfo("RGS", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The RGS segment is used to identify relationships between resources identified for a scheduled event. This segment can be used, on a site specified basis, to identify groups of resources that are used together within a scheduled event, or to describe some other relationship between resources. To specify related groups of resources within a message, begin each group with an RGS segment, and then follow that RGS with one or more of the Appointment Information segments (AIG, AIL, AIS, or AIP). If a message does not require any grouping of resources, then specify a single RGS in the message, and follow it with all of the Appointment Information segments for the scheduled event. (At least one RGS segment is required in each message - even if no grouping of resources is required - to allow parsers to properly understand the message.)")]
     ResourceGroup,
     [SegmentInfo("SCH", SegmentChapter.Scheduling)]
-    [Description("")]
+    [Description("The SCH segment contains general information about the scheduled appointment.")]
     SchedulingActivityInformation,
     
     [SegmentInfo("AUT", SegmentChapter.PatientReferral)]
-    [Description("")]
+    [Description("This segment represents an authorization or a pre-authorization for a referred procedure or requested service by the payor covering the patient's health care.")]
     AuthorizationInformation,
     [SegmentInfo("CTD", SegmentChapter.PatientReferral)]
-    [Description("")]
+    [Description("The CTD segment may identify any contact personnel associated with a patient referral message and its related transactions. The CTD segment will be paired with a PRD segment. The PRD segment contains data specifically focused on provider information in a referral. While it is important in an inter-enterprise transaction to transmit specific information regarding the providers involved (referring and referred-to), it may also be important to identify the contact personnel associated with the given provider. For example, a provider receiving a referral may need to know the office manager or the billing person at the institution of the provider who sent the referral. This segment allows for multiple contact personnel to be associated with a single provider.")]
     ContactData,
     [SegmentInfo("PRD", SegmentChapter.PatientReferral)]
-    [Description("")]
+    [Description("This segment will be employed as part of a patient referral message and its related transactions. The PRD segment contains data specifically focused on a referral, and it is inter-enterprise in nature. The justification for this new segment comes from the fact that we are dealing with referrals that are external to the facilities that received them. Therefore, using a segment such as the current PV1 would be inadequate for all the return information that may be required by the receiving facility or application. In addition, the PV1 does not always provide information sufficient to enable the external facility to make a complete identification of the referring entity. The information contained in the PRD segment will include the referring provider, the referred-to provider, the referred-to location or service, and the referring provider clinic address.")]
     ProviderData,
     [SegmentInfo("RF1", SegmentChapter.PatientReferral)]
-    [Description("")]
+    [Description("This segment represents information that may be useful when sending referrals from the referring provider to the referred-to provider.")]
     ReferralInformation,
     
     [SegmentInfo("GOL", SegmentChapter.PatientCare)]
-    [Description("")]
+    [Description("The goal detail segment contains the data necessary to add, update, correct, and delete the goals for an individual.")]
     GoalDetail,
     [SegmentInfo("PRB", SegmentChapter.PatientCare)]
-    [Description("")]
+    [Description("The problem detail segment contains the data necessary to add, update, correct, and delete the problems of a given individual.")]
     ProblemDetails,
     [SegmentInfo("PTH", SegmentChapter.PatientCare)]
-    [Description("")]
+    [Description("The pathway segment contains the data necessary to add, update, correct, and delete from the record pathways that are utilized to address an individual's health care.")]
     Pathway,
     [SegmentInfo("REL", SegmentChapter.PatientCare)]
-    [Description("")]
+    [Description("The Clinical Relationship segment contains the data necessary to relate two data elements within and/or external to the message at run-time. It also includes information about the relationship. Relationships are constrained to being between explicit segments of messages rather than between the identities of entities they reference. Segments are available within the message but related persistent information may not be. Because of the transient nature of messages applications must manage the associations with entities which persist outside or across messages. Examples: Problem is a consequence of a diagnosis. Diagnosis is supported by observation. Observation is a manifestation of a diagnosis. Complication is a consequence of a procedure.")]
     ClinicalRelationshipSegment,
     [SegmentInfo("VAR", SegmentChapter.PatientCare)]
-    [Description("")]
+    [Description("The variance segment contains the data necessary to describe differences that may have occurred at the time when a healthcare event was documented.")]
     Variance,
     
     [SegmentInfo("CNS", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The clear equipment notification segment contains the data necessary to allow the receiving equipment to clear any associated notifications.")]
     ClearNotification,
     [SegmentInfo("DST", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The Transport Destination segment contains information relevant for transport of the specimen container to specific destination on the specific equipment. This segment should be used in conjunction with the TT, AF, and AT commands of the ECD segment used in the EAC message.")]
     TransportDestination,
     [SegmentInfo("ECD", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The equipment command segment contains the information required to notify the receiving component what is to happen.")]
     EquipmentCommand,
     [SegmentInfo("ECR", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The equipment command response segment contains the receiving component's response to the previously received command.")]
     EquipmentCommandResponse,
     [SegmentInfo("EQP", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The equipment log/service segment is the data necessary to maintain an adequate audit trail of events that have occurred on a particular piece of equipment.")]
     EquipmentLogService,
     [SegmentInfo("EQU", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The equipment detail segment contains the data necessary to identify and maintain the equipment that is being used throughout the Laboratory Automation System.")]
     EquipmentDetail,
     [SegmentInfo("INV", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The inventory detail segment is the data necessary to track the inventory of substances (e.g. reagent, tips, waste) and equipment state indicators (a special type of non-material inventory items) on equipment.")]
     InventoryDetail,
     [SegmentInfo("ISD", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The interaction detail segment contains information about the status of specific interaction (e.g., processing - see section Glossary) on the specific equipment.")]
     InteractionStatusDetail,
     [SegmentInfo("NDS", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The equipment notification detail segment is the data necessary to maintain an adequate audit trail as well as notifications of events, (e.g., alarms that have occurred on a particular piece of equipment).")]
     NotificationDetail,
     [SegmentInfo("SAC", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The container detail segment is the data necessary to maintain the containers that are being used throughout the Laboratory Automation System. The specimens in many laboratories are transported and processed in containers (e.g., sample tubes). When SPM and SAC are used in the same message, then the conceptually duplicate attributes will be valued only in the SPM. This applies to SAC-6 Specimen Source, SAC-27 Additives, and SAC-43 Special Handling Considerations.")]
     SpecimenContainerDetail,
     [SegmentInfo("SID", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The Substance Identifier segment contains data necessary to identify the substance (e.g., reagents) used in the production of analytical test results. The combination of these fields must uniquely identify the substance, i.e., depending on the manufacturer all or some fields are required (this is the reason the optionality is 'C' (conditional)). If the analysis requires multiple substances, this segment is repeated for each substance. The segment(s) should be attached to the TCD segment. Another purpose of this segment is to transfer the control manufacturer, lot, etc., information for control specimens. In this case the SID segment should be attached to the SAC segment describing the container with the control specimen.")]
     SubstanceIdentifier,
     [SegmentInfo("TCC", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The test (e.g., analyte) code configuration segment is the data necessary to maintain and transmit information concerning the test entity codes that are being used throughout the \"automated system.\"")]
     TestCodeConfiguration,
     [SegmentInfo("TCD", SegmentChapter.ClinicalLaboratoryAutomation)]
-    [Description("")]
+    [Description("The test code detail segment contains the data necessary to perform operations or calculations, or execute decisions by the laboratory automation system, and which are not supported by the original HL7 segments related to orders (ORC, OBR). For detail of use see messages of laboratory orders and observations in chapters 4 and 7.")]
     TestCodeDetail,
     
     [SegmentInfo("NCK", SegmentChapter.ApplicationManagement)]
-    [Description("")]
+    [Description("The NCK segment is used to allow the various applications on the network to synchronize their system clocks (system date and time). Usage Notes: If this message is to be used to automatically reset/correct system clocks, it is recommended that the system or administrative personnel initiating the NMQ with the NCK segment have the authority to correct the clock (system date and time) for the other systems on the network. This is important in order to avoid the obvious confusion of multiple systems attempting to resynchronize each other's clocks. If this message is used only to gather information on the various systems' clocks, it is still important for an administrative procedure to be worked out to avoid conflicts when resetting clocks.")]
     SystemClock,
     [SegmentInfo("NSC", SegmentChapter.ApplicationManagement)]
-    [Description("")]
+    [Description("The NSC segment is used to inform (NMR query response) or announce (NMD unsolicited update) the start-up, shut-down, and/or migration (to a different CPU or file-server/file-system) of a particular application. Usage Notes: Fields 2-9. These are not applicable (\"n/a\") when the type of change being requested or reported is start-up or shut-down. If the change is of type \"M\", at least one of fields 2-5 must be different from its corresponding field in range 6-9. Fields 4-5, 8-9. See definitions for the MSH, message header segment, in Chapter 2, \"Control Section,\" for fields 3-4, for system and facility. \"Application\" is available for interfacing with lower level protocols. \"Facility\" is entirely site-defined. Fields 2-3, 6-7: entirely site-defined.")]
     ApplicationStatusChange,
     [SegmentInfo("NST", SegmentChapter.ApplicationManagement)]
-    [Description("")]
+    [Description("The NST segment allows application control-level statistical information to be passed between the various systems on the network. Some fields in this segment refer to portions of lower level protocols; they contain information that can be used by application management applications monitoring the state of various network links. Usage Notes: Fields 2-15. These are all marked optional since the statistics kept on a particular link and negotiated between the two systems in question will vary. Not all values will apply to each system. Some values are concerned with the type of port, and some values pertain to the lower level protocol.")]
     ApplicationControlLevelStatistics,
     
     [SegmentInfo("AFF", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The AFF segment adds detailed information regarding professional affiliations with which the staff member identified by the STF segment is/was associated.")]
     ProfessionalAffiliation,
     [SegmentInfo("CER", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The CER segment adds detailed information regarding the formal authorizations to provide a service (e.g. licenses, certificates) held by the health professional identified by the STF segment.")]
     CertificateDetail,
     [SegmentInfo("EDU", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The EDU segment adds detailed educational information to the staff member identified by the STF segment. An EDU segment may optionally follow an STF segment. An EDU segment must always have been preceded by a corresponding STF segment.")]
     EducationalDetaul,
     [SegmentInfo("LAN", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The LAN segment adds detailed language information to the staff member identified by the STF segment. An LAN segment may optionally follow an STF segment. An LAN segment must always have been preceded by a corresponding STF segment.")]
     LanguageDetail,
     [SegmentInfo("ORG", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The ORG segment relates a practitioner to an organization unit and adds detailed information regarding the practitioner's practicing specialty in that organization unit. An ORG segment may optionally follow an STF segment. An ORG segment must always have been preceded by a corresponding STF segment. If no organization unit is specified, this segment is used to relate practitioners with their practicing specialties, including effective and end dates. When it is not necessary to record organization unit or dates associated with the practicing specialty, this data is recorded in PRA-3-Practitioner Category.")]
     PractitionerOrganizationUnit,
     [SegmentInfo("PRA", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The Technical Steward for the PRA segment is P A and Personnel Management. The PRA segment adds detailed medical practitioner information to the personnel identified by the STF segment. A PRA segment may optionally follow an STF segment. A PRA segment must always have been preceded by a corresponding STF segment. The PRA segment may also be used for staff who work in healthcare who are not practitioners but need to be certified, e.g., \"medical records staff.\"")]
     PractitionerDetail,
     [SegmentInfo("ROL", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The role segment contains the data necessary to add, update, correct, and delete from the record persons involved, as well as their functional involvement with the activity being transmitted. In general, the ROL segment is used to describe a person playing a particular role within the context of the message. In PM, for example, in the Grant Certificate/Permission message (B07), the ROL segment is used to describe the roles a person may perform pertinent to the certificate in the message.")]
     Role,
     [SegmentInfo("STF", SegmentChapter.PersonnelManagement)]
-    [Description("")]
+    [Description("The Technical Steward for the STF segment is P A and Personnel Management. The STF segment can identify any personnel referenced by information systems. These can be providers, staff, system users, and referring agents. In a network environment, this segment can be used to define personnel to other applications, for example, order entry clerks, insurance verification clerks, admission clerks, as well as provider demographics. When using the STF and PRA segments in the Staff/Practitioner Master File message, MFE-4-primary key value is used to link all the segments pertaining to the same master file entry. Therefore, in the MFE segment, MFE-4-primary key value must be filled in. Other segments may follow the STF segment to provide data for a particular type of staff member. The PRA segment (practitioner) is one such. It may optionally follow the STF segment in order to add practitioner- specific data. Other segments may be defined as needed. When using the segments included in this chapter for other then Staff/Practitioner Master File messages, disregard references to MFE-4 - primary key value.")]
     StaffIdentification,
     
     [SegmentInfo("ADJ", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("This segment describes Provider and/or Payer adjustments to a Product/Service Line Item or Response Summary. These include surcharges such as tax, dispensing fees and mark ups.")]
     Adjustment,
     [SegmentInfo("IPR", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("The Invoice Processing Results (IPR) segment provides summary information about an adjudicated Product/Service Group or Product/Service Line Item.")]
     InvoiceProcessingResults,
     [SegmentInfo("IVC", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("The Invoice segment is used for HealthCare Services Invoices and contains header style information for an invoice including invoice numbers, Provider Organization and Payer Organization identification.")]
     InvoiceSegment,
     [SegmentInfo("PMT", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("This segment contains information that describes a payment made by a Payer organization.")]
     PaymentInformation,
     [SegmentInfo("PSG", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("The Product/Service Group segment is used to form a logical grouping of Product/Service Line Items, Patients and Response Summaries for a particular Invoice. For example, a Product/Service Group can be used to group all Product/Service Line Items that must be adjudicated as a group in order to be paid.")]
     ProductServiceGroup,
     [SegmentInfo("PSL", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("The Product/Service Line Item segment is used to identify individual product/service items that typically are aggregated into an Invoice. Each instance of a Product/Service Line Item corresponds to a unique product delivered or service rendered.")]
     ProductServiceLineItem,
     [SegmentInfo("PSS", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("The Product/Service Section segment is used to form a logical grouping of Product/Service Group segments, Patients and Response Summaries for a particular Invoice.")]
     ProductServiceSection,
     [SegmentInfo("PYE", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("This segment is used to define payee information.")]
     PayeeInformation,
     [SegmentInfo("RFI", SegmentChapter.ClaimsAndReimbursement)]
-    [Description("")]
+    [Description("The RFI segment contains the request date, response due date, patient consent indicator, and date additional information was submitted for a request for additional information in support of an invoice or authorization.")]
     RequestForInformation,
     
     [SegmentInfo("DEV", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The Device segment identifies an instance or a type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity. The device may be a medical or non-medical device. Medical devices include durable (reusable) medical equipment, implantable devices, as well as disposable equipment used for diagnostic, treatment, and research for healthcare and public health. Non-medical devices may include items such as a machine, cellphone, computer, application, etc.")]
     DeviceSegment,
     [SegmentInfo("IIM", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The Inventory Item Master segment (IIM) contains information about the stock of product that can be used to fulfill an ordered test/service. All of the fields in this segment describe the test/service and other basic attributes pertaining to Service Item defined within an Other Observation/Service Item master file. This segment is related to centrally stocked or supply management concerns.")]
     InventoryItemMaster,
     [SegmentInfo("ILT", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The Material Lot segment (ILT) contains material information specific to a lot within an inventory location associated with the item in the IVT segment. This segment is similar to the IIM segment used with the limited inventory item master message.")]
     MaterialLot,
     [SegmentInfo("ITM", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The Material Item segment (ITM) contains information about inventory supply items (stocked or non-stocked).")]
     MaterialItem,
     [SegmentInfo("IVT", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The Material Location segment (IVT) contains information specific to an inventory location for the inventory supply item in the Material Item (ITM) segment.")]
     MaterialLocation,
     [SegmentInfo("PCE", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The Patient Charge Cost Center Exception segment identifies the Patient Price associated with Cost Center and Patient Charge Identifier combinations that should be used in an instance that the item is billed to a patient. The grouping of Cost Center accounts, Patient Charge Identifier, and Patient Price is unique.")]
     PatientChargeCostCenterExceptions,
     [SegmentInfo("PKG", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("This segment contains the type of packaging available for the inventory supply item to be ordered and/or issued to a department or other supply location for a specified Purchasing Vendor. It would be recommended to send this segment in descending unit of measure order corresponding with the ascending Set ID.")]
     ItemPackaging,
     [SegmentInfo("SCD", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The SCD segment contains cycle data representing an instance of a sterilization or decontamination.")]
     AntiMicrobialCycleData,
     [SegmentInfo("SCP", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The sterilization configuration segment contains information specific to configuration of a sterilizer or washer for processing sterilization or decontamination loads.")]
     SterilizerConfiguration,
     [SegmentInfo("SDD", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The SDD segment contains the attributes of an instance of a cycle that provides sterilization or decontamination of medical supplies.")]
     SterilizationDeviceData,
     [SegmentInfo("SLT", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The SLT segment defines requests, responses, and notifications of sterilization lots and supply item descriptions. This message may be used for CPD (Central Supply) and OR (Sub-sterile area outside of an Operating Room) mode.")]
     SterilizationLot,
     [SegmentInfo("STZ", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("The STZ segment contains sterilization-specific attributes of a supply item.")]
     SterilizationParameter,
     [SegmentInfo("VND", SegmentChapter.MaterialsManagement)]
-    [Description("")]
+    [Description("This segment contains purchasing vendors that supply the inventory supply item specified in the ITM segment.")]
     PurchasingVendor,
 }

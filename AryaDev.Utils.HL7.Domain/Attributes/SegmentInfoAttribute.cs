@@ -8,8 +8,8 @@ namespace AryaDev.Utils.HL7.Domain.Attributes;
 [method: SetsRequiredMembers]
 public class SegmentInfoAttribute(string code, SegmentChapter chapter, bool optional = true, bool repeatable = true) : Attribute
 {
-    [Required] public required string Code { get; set; } = code;
-    [Required] public required SegmentChapter Chapter { get; set; } = chapter;
-    [Required] public required bool Optional { get; set; } = optional;
-    [Required] public required bool Repeatable { get; set; } = repeatable;
+    [Required] public required string Code { get; init; } = code;
+    [Required] public required SegmentChapter Chapter { get; init; } = chapter;
+    [Required] public required bool Optional { get; init; } = optional;
+    [Required] public required bool Repeatable { get; init; } = repeatable;
 }

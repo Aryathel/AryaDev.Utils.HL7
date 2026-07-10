@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\AryaDev.Utils.HL7.Domain\AryaDev.Utils.HL7.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
