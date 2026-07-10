@@ -3,35 +3,13 @@
 A .NET library for working with [HL7 v2.9.1](https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649) pipe-delimited messages. Messages are deserialized into a string-based model and fields are accessed using standard HL7 location notation (for example, `PID.5.1` or `PV1.3.2.1`).
 
 The intent of this library is to make HL7 field access much more intuitive - if someone tells me they will populate a value in the "Provider's Administration Instructions" field,
-I would have to take time to identify exactly what they were referring to. Instead, most use the standard reference language like "RXE.7.2" I know exactly where that field is in the message.
+I would have to take time to identify exactly what they were referring to. Instead, most use the standard reference language like "RXE.7.2" - and I know exactly where that field is in the message.
 With this library, you can reference the segments using the same reference language that is used elsewhere to get the string value out from that field and handle it how you want.
 
 > [!IMPORTANT]
 > This library is NOT intended for validation against the HL7 standard. Every organization
 > has a slightly different implementation or version that they use, and data in certain fields will be formatted differently.
 > This library simply provides an easier-to-understand interface for accessing the fields in an HL7 message.
-
-## Solution Structure
-
-| Project | Purpose |
-|---------|---------|
-| `AryaDev.Utils.HL7.Domain` | `HL7Message`, `Segment`, path parsing, encoding utilities, and the `SegmentType` metadata catalog |
-| `AryaDev.Utils.HL7.Serializer` | `HL7Serializer` for reading and writing pipe-delimited HL7 messages |
-
-
-## Getting Started
-
-Reference the serializer project (which includes the domain layer):
-
-```xml
-<ProjectReference Include="path\to\AryaDev.Utils.HL7.Serializer\AryaDev.Utils.HL7.Serializer.csproj" />
-```
-
-Build the solution:
-
-```bash
-dotnet build AryaDev.Utils.HL7.sln
-```
 
 ## Deserialization
 
@@ -108,10 +86,11 @@ Paths use **1-based** indexing throughout, aligned with HL7 field numbering:
 Examples:
 
 ```
-PV1.3.2.1     → first PV1, field 3, component 2, subcomponent 1
-PID[2].5      → second PID segment, field 5
-OBX.5         → first OBX, field 5 (entire field value)
-MSH.9         → message type
+PV1.3.2.1      → first PV1, field 3, component 2, subcomponent 1
+PID[2].5       → second PID segment, field 5
+OBX.5          → first OBX, field 5 (entire field value)
+MSH.9          → message type
+DG1[3].5~2.3.1 → third DG1, field 5, repetition 2, component 3, subcomponent 1
 ```
 
 When a path targets a field without specifying component or subcomponent depth, the library returns the assembled field value with HL7 separators preserved.
