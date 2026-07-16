@@ -11,6 +11,8 @@
         <Description>A .NET library for working with HL7 v2.9.1 pipe-delimited messages. Messages are deserialized into a string-based model and fields are accessed using standard HL7 location notation (for example, PID.5.1 or PV1.3.2.1).</Description>
         <PackageIcon>AryathelLogo.png</PackageIcon>
         <RepositoryUrl>https://github.com/Aryathel/AryaDev.Utils.HL7/</RepositoryUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,7 +27,14 @@
     </ItemGroup>
     
     <ItemGroup>
-        <None Update="README.md">
+        <None Update="..\README.md">
+            <Pack>True</Pack>
+            <PackagePath>\</PackagePath>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
