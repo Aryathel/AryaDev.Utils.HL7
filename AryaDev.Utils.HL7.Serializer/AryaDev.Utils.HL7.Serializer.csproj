@@ -13,6 +13,7 @@
         <RepositoryUrl>https://github.com/Aryathel/AryaDev.Utils.HL7/</RepositoryUrl>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <IncludeContentInPack>true</IncludeContentInPack>
     </PropertyGroup>
 
     <ItemGroup>
