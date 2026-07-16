@@ -4,10 +4,24 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageId>AryaDev.Utils.HL7</PackageId>
+        <Version>1.0.0-prerelease1</Version>
+        <Authors>Arya Mayfield</Authors>
+        <Description>A .NET library for working with HL7 v2.9.1 pipe-delimited messages. Messages are deserialized into a string-based model and fields are accessed using standard HL7 location notation (for example, PID.5.1 or PV1.3.2.1).</Description>
+        <PackageIcon>AryathelLogo.png</PackageIcon>
+        <RepositoryUrl>https://github.com/Aryathel/AryaDev.Utils.HL7/</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\AryaDev.Utils.HL7.Domain\AryaDev.Utils.HL7.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="AryathelLogo.png">
+        <Pack>True</Pack>
+        <PackagePath></PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>
