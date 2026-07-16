@@ -2,6 +2,11 @@ name: Build, Test, and Publish NuGet
 
 on:
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'The exact git tag to target (e.g. v1.0.0)'
+        required: true
+        type: string
   
   push:
     tags:
@@ -14,9 +19,15 @@ permissions:
 jobs:
   build-test-publish:
     runs-on: ubuntu-latest
+    
+    env:
+      TARGET_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag_name || github.ref_name }}
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TARGET_TAG }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
@@ -27,7 +38,7 @@ jobs:
         id: version
         shell: bash
         run: |
-          TAG="${GITHUB_REF_NAME}"
+          TAG="${ENV_TARGET_TAG}"
           VERSION="${TAG#v}"
           if [[ -z "${VERSION}" ]]; then
             echo "Tag '${TAG}' did not yield a package version." >&2
