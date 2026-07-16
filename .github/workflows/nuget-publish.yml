@@ -38,7 +38,7 @@ jobs:
         id: version
         shell: bash
         run: |
-          TAG="${ENV_TARGET_TAG}"
+          TAG="${{ env.TARGET_TAG }}"
           VERSION="${TAG#v}"
           if [[ -z "${VERSION}" ]]; then
             echo "Tag '${TAG}' did not yield a package version." >&2
