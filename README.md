@@ -106,6 +106,18 @@ message["PID.5.2"] = "JANE";
 message["OBX.5"] = "98.6";
 ```
 
+When assigning through the indexer (or `Segment.SetValue`), the value is parsed using the message encoding characters. Characters such as `|`, `^`, `~`, `\`, and `&` are treated as separators and will split the value into fields, components, repetitions, or subcomponents.
+
+To store a literal value that contains those special characters, use `SetRaw` instead. The raw value is kept as a single leaf and is escaped correctly on serialization (for example `\F\` for `|` and `\S\` for `^`):
+
+```csharp
+// Wrong: `|` and `^` are interpreted as separators
+message["NTE.3"] = "Note with | pipe and ^ caret";
+
+// Correct: store the literal, escape on serialize
+message.SetRaw("NTE.3", "Note with | pipe and ^ caret");
+```
+
 ### Enumerating Segments
 
 ```csharp
