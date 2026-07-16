@@ -1,6 +1,7 @@
 using System.Text;
 using AryaDev.Utils.HL7.Domain;
 using AryaDev.Utils.HL7.Domain.Encoding;
+using AryaDev.Utils.HL7.Domain.Enumeration;
 
 namespace AryaDev.Utils.HL7.Serializer;
 
@@ -57,6 +58,10 @@ internal static class HL7MessageReader
         }
 
         var message = new HL7Message(segments, encoding, characterSet, textEncoding);
+        message.MessageType = MessageTypeExtensions.ParseFromMsh9(
+            message["MSH.9.1"],
+            message["MSH.9.2"],
+            message["MSH.9.3"]);
         return message;
     }
 

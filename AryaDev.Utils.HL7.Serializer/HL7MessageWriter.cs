@@ -1,6 +1,7 @@
 using System.Text;
 using AryaDev.Utils.HL7.Domain;
 using AryaDev.Utils.HL7.Domain.Encoding;
+using AryaDev.Utils.HL7.Domain.Enumeration;
 
 namespace AryaDev.Utils.HL7.Serializer;
 
@@ -9,6 +10,8 @@ internal static class HL7MessageWriter
     internal static string Write(HL7Message message)
     {
         ArgumentNullException.ThrowIfNull(message);
+
+        ApplyMessageTypeIfMsh9Unset(message);
 
         var encoding = message.Encoding;
         var builder = new StringBuilder();
@@ -28,6 +31,23 @@ internal static class HL7MessageWriter
     {
         var text = Write(message);
         return message.TextEncoding.GetBytes(text);
+    }
+
+    /// <summary>
+    /// When MSH-9 is empty and <see cref="HL7Message.MessageType"/> is known, populate MSH-9 from the typed value.
+    /// Does not overwrite an existing MSH-9 value.
+    /// </summary>
+    private static void ApplyMessageTypeIfMsh9Unset(HL7Message message)
+    {
+        if (message.MessageType == MessageType.Unknown)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(message["MSH.9"]))
+            return;
+
+        var msh9 = message.MessageType.ToMsh9Value(message.Encoding);
+        if (!string.IsNullOrWhiteSpace(msh9))
+            message["MSH.9"] = msh9;
     }
 
     private static string WriteSegment(Segment segment, Hl7EncodingCharacters encoding)

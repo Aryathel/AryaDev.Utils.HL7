@@ -57,7 +57,8 @@ All field values are `string`. Use the `HL7Message` indexer with HL7 reference p
 
 ```csharp
 // Message header
-string? messageType = message["MSH.9"];           // ORU^R01
+string? messageType = message["MSH.9"];           // ORU^R01 (raw MSH-9)
+var type = message.MessageType;                   // MessageType.ORU_R01 (set at deserialize)
 string? controlId   = message["MSH.10"];          // MSG00001
 
 // Patient identification (CX datatype — component level)
@@ -127,6 +128,32 @@ string? desc = SegmentType.PatientIdentification.GetDescription();
 bool optional = SegmentType.PatientIdentification.IsOptional();
 
 SegmentTypeExtensions.TryParseCode("OBX", out var segmentType);    // true
+```
+
+### Message Type (MSH-9)
+
+The `MessageType` enum catalogs HL7 message types (Table 0354). During deserialization, `HL7Message.MessageType` is set from MSH-9 (preferring `.3`, then `{.1}_{.2}`, then `.1` alone), or `MessageType.Unknown` when unrecognized. On serialization, the typed value is written to MSH-9 only when that field is empty — an existing MSH-9 value is never overwritten. The raw field remains available via the indexer.
+
+```csharp
+using AryaDev.Utils.HL7.Domain.Enumeration;
+
+HL7Message message = serializer.Deserialize(raw);
+
+MessageType type = message.MessageType;           // e.g. ORU_R01 (from MSH-9 at deserialize)
+string? rawMsh9 = message["MSH.9"];               // e.g. ORU^R01^ORU_R01
+
+// Build a message with a typed type; MSH-9 is filled in on serialize if unset
+var outbound = new HL7Message();
+outbound.MessageType = MessageType.ADT_A01;
+string wire = serializer.Serialize(outbound);     // MSH-9 becomes ADT^A01^ADT_A01
+
+// Manual MSH-9 wins over MessageType
+outbound["MSH.9"] = "ORU^R01";
+outbound.MessageType = MessageType.ADT_A01;
+wire = serializer.Serialize(outbound);            // MSH-9 stays ORU^R01
+
+string code = MessageType.RDE_O11.GetCode();      // RDE_O11
+MessageTypeExtensions.TryParseCode("ACK", out var ack); // true
 ```
 
 ## Serialization

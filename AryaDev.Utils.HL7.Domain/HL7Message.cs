@@ -1,4 +1,5 @@
 using AryaDev.Utils.HL7.Domain.Encoding;
+using AryaDev.Utils.HL7.Domain.Enumeration;
 using AryaDev.Utils.HL7.Domain.Model;
 
 namespace AryaDev.Utils.HL7.Domain;
@@ -32,6 +33,13 @@ public class HL7Message
     /// .NET encoding resolved from <see cref="CharacterSet"/> (defaults to ASCII).
     /// </summary>
     public System.Text.Encoding TextEncoding { get; set; }
+
+    /// <summary>
+    /// Typed HL7 message type (Table 0354).
+    /// Populated from MSH-9 during deserialization. On serialization, written to MSH-9 only when that field is empty.
+    /// The raw MSH-9 string remains available via the indexer (e.g. <c>message["MSH.9"]</c>).
+    /// </summary>
+    public MessageType MessageType { get; set; } = MessageType.Unknown;
 
     public string? this[string path]
     {
