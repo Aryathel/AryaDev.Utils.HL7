@@ -113,9 +113,13 @@ To store a literal value that contains those special characters, use `SetRaw` in
 ```csharp
 // Wrong: `|` and `^` are interpreted as separators
 message["NTE.3"] = "Note with | pipe and ^ caret";
+Console.WriteLine(message["NTE.3.1"]);  // "Note with | pipe and "
+Console.WriteLine(message["NTE.3.2"]);  // " caret"
 
 // Correct: store the literal, escape on serialize
 message.SetRaw("NTE.3", "Note with | pipe and ^ caret");
+Console.WriteLine(message["NTE.3.1"]);  // "Note with | pipe and ^ caret"
+Console.WriteLine(message["NTE.3.2"]);  // null
 ```
 
 ### Enumerating Segments
