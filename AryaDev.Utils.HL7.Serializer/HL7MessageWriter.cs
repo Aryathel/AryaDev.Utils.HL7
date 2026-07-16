@@ -12,6 +12,7 @@ internal static class HL7MessageWriter
         ArgumentNullException.ThrowIfNull(message);
 
         ApplyMessageTypeIfMsh9Unset(message);
+        ApplyEncodingIfMsh18Unset(message);
 
         var encoding = message.Encoding;
         var builder = new StringBuilder();
@@ -50,6 +51,19 @@ internal static class HL7MessageWriter
             message["MSH.9"] = msh9;
     }
 
+    private static void ApplyEncodingIfMsh18Unset(HL7Message message)
+    {
+        if (message.TextEncoding is null)
+            return;
+
+        if (!string.IsNullOrWhiteSpace(message["MSH.18"]))
+            return;
+        
+        var msh18 = message.TextEncoding.ToMsh18Value();
+        if (!string.IsNullOrWhiteSpace(msh18))
+            message["MSH.18"] = msh18;
+    }
+
     private static string WriteSegment(Segment segment, Hl7EncodingCharacters encoding)
     {
         var separator = encoding.FieldSeparator;
@@ -61,8 +75,8 @@ internal static class HL7MessageWriter
         for (var field = seed; field <= lastField; field++)
         {
             builder.Append(separator);
-            var raw = segment.GetFieldRaw(field, encoding);
-            builder.Append(Hl7Escape.Encode(raw, encoding));
+            var raw = segment.GetFieldEscaped(field, encoding);
+            builder.Append(raw);
         }
 
         return builder.ToString();

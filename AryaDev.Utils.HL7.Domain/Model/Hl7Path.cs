@@ -23,9 +23,10 @@ public sealed partial class Hl7Path
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(segmentName);
         if (segmentName.Length != 3)
-        {
             throw new ArgumentException("Segment name must be exactly 3 characters.", nameof(segmentName));
-        }
+        
+        if (!char.IsLetter(segmentName[0]) || !segmentName.All(char.IsLetterOrDigit))
+            throw new ArgumentException("Segment name must start with a letter and contain only letters and digits.", nameof(segmentName));
 
         ArgumentOutOfRangeException.ThrowIfLessThan(segmentOccurrence, 1);
         ArgumentOutOfRangeException.ThrowIfLessThan(repetition, 1);
@@ -58,6 +59,9 @@ public sealed partial class Hl7Path
         try
         {
             segmentName = match.Groups["segment"].Value;
+            if (!char.IsLetter(segmentName[0]))
+                throw new Exception("Invalid segment name: '" + segmentName + "'.");
+            
             occurrence = match.Groups["occurrence"].Success
                 ? int.Parse(match.Groups["occurrence"].Value)
                 : 1;

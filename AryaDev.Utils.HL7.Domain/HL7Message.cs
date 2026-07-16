@@ -57,6 +57,13 @@ public class HL7Message
         }
     }
 
+    public void SetRaw(string path, string value)
+    {
+        var hl7Path = Hl7Path.Parse(path);
+        var segment = FindOrCreateSegment(hl7Path);
+        segment.SetValueRaw(hl7Path, value);
+    }
+
     public IEnumerable<Segment> GetSegments(string segmentName)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(segmentName);

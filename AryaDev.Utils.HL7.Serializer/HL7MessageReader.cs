@@ -100,10 +100,7 @@ internal static class HL7MessageReader
         }
 
         for (var i = 1; i < parts.Length; i++)
-        {
-            var decoded = Hl7Escape.Decode(parts[i], encoding);
-            segment.SetFieldFromRaw(i + mod, decoded, encoding);
-        }
+            segment.SetFieldFromRaw(i + mod, parts[i], encoding);
 
         return segment;
     }

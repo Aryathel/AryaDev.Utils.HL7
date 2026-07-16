@@ -16,51 +16,54 @@ public static class Hl7Escape
         var result = new StringBuilder(value.Length);
         for (var i = 0; i < value.Length; i++)
         {
-            if (value[i] != escape)
+            if (value[i] != escape || i + 1 >= value.Length)
             {
                 result.Append(value[i]);
                 continue;
             }
 
-            if (i + 1 >= value.Length)
+            var endEscape = value.IndexOf(escape, i+1);
+            if (endEscape == -1)
             {
-                result.Append(escape);
+                result.Append(value[i..]);
+                break;
+            }
+            var encoded = value.Substring(i+1, endEscape - i - 1);
+
+            if (encoded.Length == 0 || encoded.Any(char.IsWhiteSpace))
+            {
+                result.Append(value[i]);
                 continue;
             }
-
-            var code = value[i + 1];
-            switch (code)
+            
+            switch (encoded[0])
             {
                 case 'F':
                     result.Append(encoding.FieldSeparator);
-                    i++;
                     break;
                 case 'S':
                     result.Append(encoding.ComponentSeparator);
-                    i++;
                     break;
                 case 'T':
                     result.Append(encoding.SubcomponentSeparator);
-                    i++;
                     break;
                 case 'R':
                     result.Append(encoding.RepetitionSeparator);
-                    i++;
                     break;
                 case 'E':
                     result.Append(encoding.EscapeCharacter);
-                    i++;
                     break;
                 case 'X':
-                    i = AppendHexEscape(value, i, result);
+                    TryAppendHexEscape(encoded, result);
                     break;
                 case 'Z':
-                    i = AppendMultiHexEscape(value, i, result);
+                    TryAppendMultiHexEscape(encoded, result);
                     break;
                 default:
-                    result.Append(escape);
+                    result.Append(encoded);
                     break;
             }
+            i = endEscape;
         }
 
         return result.ToString();
@@ -91,43 +94,37 @@ public static class Hl7Escape
         return result.ToString();
     }
 
-    private static int AppendHexEscape(string value, int escapeIndex, StringBuilder result)
+    private static bool TryAppendHexEscape(string value, StringBuilder result)
     {
-        var start = escapeIndex + 2;
-        if (start + 4 > value.Length)
+        if (5 > value.Length)
         {
-            result.Append(value[escapeIndex]);
-            return escapeIndex;
+            result.Append(value);
+            return false;
         }
 
-        var hex = value.Substring(start, 4);
-        if (int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out var codePoint))
+        if (int.TryParse(value[1..], System.Globalization.NumberStyles.HexNumber, null, out var codePoint))
         {
             result.Append((char)codePoint);
-            return start + 3;
+            return true;
         }
 
-        result.Append(value[escapeIndex]);
-        return escapeIndex;
+        result.Append(value);
+        return false;
     }
 
-    private static int AppendMultiHexEscape(string value, int escapeIndex, StringBuilder result)
+    private static bool TryAppendMultiHexEscape(string value, StringBuilder result)
     {
-        var index = escapeIndex + 2;
+        var index = 1;
         while (index + 4 <= value.Length)
         {
             var hex = value.Substring(index, 4);
             if (!int.TryParse(hex, System.Globalization.NumberStyles.HexNumber, null, out var codePoint))
-                break;
+                return false;
 
             result.Append((char)codePoint);
             index += 4;
         }
-
-        if (index > escapeIndex + 2)
-            return index - 1;
-
-        result.Append(value[escapeIndex]);
-        return escapeIndex;
+        
+        return true;
     }
 }

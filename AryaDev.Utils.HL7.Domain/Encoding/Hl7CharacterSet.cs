@@ -12,11 +12,11 @@ public static class Hl7CharacterSet
         {
             ["ASCII"] = System.Text.Encoding.ASCII,
             ["ISO IR 6"] = System.Text.Encoding.ASCII,
+            ["LATIN-1"] = System.Text.Encoding.Latin1,
             ["8859/1"] = System.Text.Encoding.Latin1,
             ["ISO IR 100"] = System.Text.Encoding.Latin1,
             ["ISO8859-1"] = System.Text.Encoding.Latin1,
             ["ISO8859/1"] = System.Text.Encoding.Latin1,
-            ["LATIN-1"] = System.Text.Encoding.Latin1,
             ["UTF-8"] = System.Text.Encoding.UTF8,
             ["ISO IR 192"] = System.Text.Encoding.UTF8,
             ["UTF-16"] = System.Text.Encoding.Unicode,
@@ -101,6 +101,15 @@ public static class Hl7CharacterSet
 
                 start = i + 1;
             }
+
+        return null;
+    }
+
+    public static string? ToMsh18Value(this System.Text.Encoding encoding)
+    {
+        foreach (var (k, v) in KnownEncodings)
+            if (encoding.Equals(v))
+                return k;
 
         return null;
     }

@@ -1,4 +1,5 @@
-﻿using AryaDev.Utils.HL7.Domain.Encoding;
+﻿using System.Reflection.Metadata;
+using AryaDev.Utils.HL7.Domain.Encoding;
 using AryaDev.Utils.HL7.Domain.Enumeration;
 using AryaDev.Utils.HL7.Domain.Model;
 
@@ -22,6 +23,9 @@ public class Segment
         ArgumentException.ThrowIfNullOrWhiteSpace(name);
         if (name.Length != 3)
             throw new ArgumentException("Segment name must be exactly 3 characters.", nameof(name));
+        
+        if (!char.IsLetter(name[0]) || !name.All(char.IsLetterOrDigit))
+            throw new ArgumentException("Segment name must start with a letter and contain only letters and digits.", nameof(name));
 
         Name = name.ToUpperInvariant();
     }
@@ -35,6 +39,9 @@ public class Segment
 
     internal List<List<List<List<string>>>> FieldsInternal => _fields;
 
+    public string? GetValue(string path, Hl7EncodingCharacters encoding) =>
+        GetValue(Hl7Path.Parse(path), encoding);
+    
     public string? GetValue(Hl7Path path, Hl7EncodingCharacters encoding)
     {
         ArgumentNullException.ThrowIfNull(path);
@@ -58,7 +65,7 @@ public class Segment
         var components = repetitions[repIndex];
 
         if (path.Component is null)
-            return JoinFieldLevel(repetitions, encoding);
+            return JoinFieldLevel(repetitions, encoding, false);
 
         var compIndex = path.Component.Value - 1;
         if (compIndex < 0 || compIndex >= components.Count)
@@ -67,7 +74,7 @@ public class Segment
         var subcomponents = components[compIndex];
 
         if (path.Subcomponent is null)
-            return JoinComponents(components, encoding);
+            return JoinSubcomponents(subcomponents, encoding, false);
 
         var subIndex = path.Subcomponent.Value - 1;
         if (subIndex < 0 || subIndex >= subcomponents.Count)
@@ -75,6 +82,9 @@ public class Segment
 
         return subcomponents[subIndex];
     }
+
+    public void SetValue(string path, string? value, Hl7EncodingCharacters encoding) =>
+        SetValue(Hl7Path.Parse(path), value, encoding);
 
     public void SetValue(Hl7Path path, string? value, Hl7EncodingCharacters encoding)
     {
@@ -113,6 +123,45 @@ public class Segment
         _fields[fieldIndex][repIndex][compIndex][subIndex] = value ?? string.Empty;
     }
 
+    public void SetValueRaw(string path, string? value) =>
+        SetValueRaw(Hl7Path.Parse(path), value);
+    
+    public void SetValueRaw(Hl7Path path, string? value)
+    {
+        ArgumentNullException.ThrowIfNull(path);
+
+        if (!string.Equals(path.SegmentName, Name, StringComparison.OrdinalIgnoreCase))
+            throw new ArgumentException($"Path segment '{path.SegmentName}' does not match segment '{Name}'.");
+
+        if (path.Field is null)
+            throw new ArgumentException("Field is required to set a value.", nameof(path));
+
+        var fieldIndex = path.Field.Value - 1;
+        EnsureFieldCapacity(fieldIndex);
+
+        var repIndex = path.Repetition - 1;
+        EnsureRepetitionCapacity(fieldIndex, repIndex);
+
+        if (path.Component is null)
+        {
+            _fields[fieldIndex][repIndex] = [[value ?? string.Empty]];
+            return;
+        }
+
+        var compIndex = path.Component.Value - 1;
+        EnsureComponentCapacity(fieldIndex, repIndex, compIndex);
+
+        if (path.Subcomponent is null)
+        {
+            _fields[fieldIndex][repIndex][compIndex] = [value ?? string.Empty];
+            return;
+        }
+
+        var subIndex = path.Subcomponent.Value - 1;
+        EnsureSubcomponentCapacity(fieldIndex, repIndex, compIndex, subIndex);
+        _fields[fieldIndex][repIndex][compIndex][subIndex] = value ?? string.Empty;
+    }
+    
     internal void SetFieldCount(int count)
     {
         while (_fields.Count < count)
@@ -126,41 +175,50 @@ public class Segment
         _fields[fieldIndex] = ParseFieldValue(rawValue, encoding);
     }
 
-    public string GetFieldRaw(int fieldNumber, Hl7EncodingCharacters encoding)
+    public string GetFieldEscaped(int fieldNumber, Hl7EncodingCharacters encoding) =>
+        GetField(fieldNumber, encoding, true);
+
+    public string GetFieldRaw(int fieldNumber, Hl7EncodingCharacters encoding) =>
+        GetField(fieldNumber, encoding, false);
+
+    private string GetField(int fieldNumber, Hl7EncodingCharacters encoding, bool escaped)
     {
+        if (fieldNumber == 2 && Name == "MSH" && string.IsNullOrWhiteSpace(GetValue("MSH.2", encoding)))
+            return encoding.ToMsh2();
+        
         var fieldIndex = fieldNumber - 1;
         if (fieldIndex < 0 || fieldIndex >= _fields.Count)
             return string.Empty;
 
-        return JoinFieldLevel(_fields[fieldIndex], encoding);
+        return JoinFieldLevel(_fields[fieldIndex], encoding, escaped);
     }
 
-    private static string JoinFieldLevel(List<List<List<string>>> repetitions, Hl7EncodingCharacters encoding)
+    private static string JoinFieldLevel(List<List<List<string>>> repetitions, Hl7EncodingCharacters encoding, bool escaped)
     {
         if (repetitions.Count == 0)
             return string.Empty;
 
         return string.Join(
             encoding.RepetitionSeparator,
-            repetitions.Select(rep => JoinComponents(rep, encoding)));
+            repetitions.Select(rep => JoinComponents(rep, encoding, escaped)));
     }
 
-    private static string JoinComponents(List<List<string>> components, Hl7EncodingCharacters encoding)
+    private static string JoinComponents(List<List<string>> components, Hl7EncodingCharacters encoding, bool escaped)
     {
         if (components.Count == 0)
             return string.Empty;
 
         return string.Join(
             encoding.ComponentSeparator,
-            components.Select(comp => JoinSubcomponents(comp, encoding)));
+            components.Select(comp => JoinSubcomponents(comp, encoding, escaped)));
     }
 
-    private static string JoinSubcomponents(List<string> subcomponents, Hl7EncodingCharacters encoding)
+    private static string JoinSubcomponents(List<string> subcomponents, Hl7EncodingCharacters encoding, bool escaped)
     {
         if (subcomponents.Count == 0)
             return string.Empty;
 
-        return string.Join(encoding.SubcomponentSeparator, subcomponents);
+        return string.Join(encoding.SubcomponentSeparator, escaped ? subcomponents.Select(s => Hl7Escape.Encode(s, encoding)) : subcomponents);
     }
 
     private static List<List<List<string>>> ParseFieldValue(string rawValue, Hl7EncodingCharacters encoding)
@@ -186,7 +244,7 @@ public class Segment
         if (string.IsNullOrEmpty(componentValue))
             return [];
 
-        return componentValue.Split(encoding.SubcomponentSeparator).ToList();
+        return componentValue.Split(encoding.SubcomponentSeparator).Select(c => Hl7Escape.Decode(c, encoding)).ToList();
     }
 
     private static List<string> ParseComponentValue(string rawValue, Hl7EncodingCharacters encoding) =>
