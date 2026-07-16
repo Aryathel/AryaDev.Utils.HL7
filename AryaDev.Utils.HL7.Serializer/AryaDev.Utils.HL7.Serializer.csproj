@@ -27,16 +27,16 @@
     </ItemGroup>
     
     <ItemGroup>
-        <None Update="$(SolutionDir)README.md">
+        <None Include="$(SolutionDir)README.md">
             <Pack>True</Pack>
-            <PackagePath></PackagePath>
+            <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="$(SolutionDir)LICENSE">
+        <None Include="$(SolutionDir)LICENSE">
             <Pack>True</Pack>
-            <PackagePath></PackagePath>
+            <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
 
