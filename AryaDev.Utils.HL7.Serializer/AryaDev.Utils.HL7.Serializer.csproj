@@ -28,14 +28,14 @@
     </ItemGroup>
     
     <ItemGroup>
-        <None Include="$(SolutionDir)README.md">
+        <None Include="$(MSBuildThisFileDirectory)..\README.md">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="$(SolutionDir)LICENSE">
+        <None Include="$(MSBuildThisFileDirectory)..\LICENSE">
             <Pack>True</Pack>
             <PackagePath>\</PackagePath>
         </None>
