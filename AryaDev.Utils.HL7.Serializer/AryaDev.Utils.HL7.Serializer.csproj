@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>AryaDev.Utils.HL7</PackageId>
-        <Version>1.0.0-prerelease4</Version>
+        <Version>1.0.0-prerelease5</Version>
         <Authors>Arya Mayfield</Authors>
         <Description>A .NET library for working with HL7 v2.9.1 pipe-delimited messages. Messages are deserialized into a string-based model and fields are accessed using standard HL7 location notation (for example, PID.5.1 or PV1.3.2.1).</Description>
         <PackageIcon>AryathelLogo.png</PackageIcon>
@@ -14,11 +14,26 @@
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <IncludeContentInPack>true</IncludeContentInPack>
+        <!-- Include Domain assembly output in this package (Domain is not published separately). -->
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeProjectReferenceAssembliesInPackage</TargetsForTfmSpecificBuildOutput>
+        <PackageTags>HL&amp;;HL7-writer;HL7-reader;HL7-serializer;HL7-v2;HL7-parser</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\AryaDev.Utils.HL7.Domain\AryaDev.Utils.HL7.Domain.csproj" />
+        <ProjectReference Include="..\AryaDev.Utils.HL7.Domain\AryaDev.Utils.HL7.Domain.csproj">
+            <!-- Prevent NuGet from adding Domain as a package dependency. -->
+            <PrivateAssets>all</PrivateAssets>
+        </ProjectReference>
     </ItemGroup>
+
+    <Target Name="IncludeProjectReferenceAssembliesInPackage">
+        <ItemGroup>
+            <!-- Domain.dll is copied next to Serializer on build; pick it up for packing without ResolveReferences so pack with NoBuild works. -->
+            <BuildOutputInPackage
+                Include="$(OutputPath)AryaDev.Utils.HL7.Domain.dll"
+                Condition="Exists('$(OutputPath)AryaDev.Utils.HL7.Domain.dll')" />
+        </ItemGroup>
+    </Target>
 
     <ItemGroup>
       <None Update="AryathelLogo.png">

@@ -21,6 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\AryaDev.Utils.HL7.Domain\AryaDev.Utils.HL7.Domain.csproj" />
         <ProjectReference Include="..\AryaDev.Utils.HL7.Serializer\AryaDev.Utils.HL7.Serializer.csproj" />
     </ItemGroup>
 

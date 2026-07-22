@@ -11,6 +11,9 @@ namespace AryaDev.Utils.HL7.Domain.Encoding;
 /// </remarks>
 public static class Hl7Escape
 {
+    /// <inheritdoc cref="Decode(string, Hl7EncodingCharacters)"/>
+    public static string Decode(this Hl7EncodingCharacters encoding, string value) => Decode(value, encoding);
+    
     /// <summary>
     /// Decodes HL7 escape sequences into their literal characters.
     /// </summary>
@@ -82,6 +85,10 @@ public static class Hl7Escape
         return result.ToString();
     }
 
+    
+    /// <inheritdoc cref="Encode(string, Hl7EncodingCharacters)"/>
+    public static string Encode(this Hl7EncodingCharacters encoding, string value) => Encode(value, encoding);
+    
     /// <summary>
     /// Encodes delimiter characters as HL7 escape sequences.
     /// </summary>

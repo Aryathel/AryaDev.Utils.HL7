@@ -108,7 +108,7 @@ message["OBX.5"] = "98.6";
 
 When assigning through the indexer (or `Segment.SetValue`), the value is parsed using the message encoding characters. Characters such as `|`, `^`, `~`, `\`, and `&` are treated as separators and will split the value into fields, components, repetitions, or subcomponents.
 
-To store a literal value that contains those special characters, use `SetRaw` instead. The raw value is kept as a single leaf and is escaped correctly on serialization (for example `\F\` for `|` and `\S\` for `^`):
+To store a literal value that contains those special characters, use `SetRaw` instead, or encode the value before assigning. The raw value is kept as a single leaf and is escaped correctly on serialization (for example `\F\` for `|` and `\S\` for `^`):
 
 ```csharp
 // Wrong: `|` and `^` are interpreted as separators
@@ -118,6 +118,8 @@ Console.WriteLine(message["NTE.3.2"]);  // " caret"
 
 // Correct: store the literal, escape on serialize
 message.SetRaw("NTE.3", "Note with | pipe and ^ caret");
+// OR
+message["NTE.3"] = message.Encoding.Encode("Note with | pipe and ^ caret")
 Console.WriteLine(message["NTE.3.1"]);  // "Note with | pipe and ^ caret"
 Console.WriteLine(message["NTE.3.2"]);  // null
 ```
