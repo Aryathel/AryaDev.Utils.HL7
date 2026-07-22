@@ -2,8 +2,21 @@ using System.Text;
 
 namespace AryaDev.Utils.HL7.Domain.Encoding;
 
+/// <summary>
+/// Encodes and decodes HL7 escape sequences within field data.
+/// </summary>
+/// <remarks>
+/// Supports standard escapes (<c>\F\</c>, <c>\S\</c>, <c>\T\</c>, <c>\R\</c>, <c>\E\</c>)
+/// plus hex forms (<c>\Xhhhh\</c>, multi-codepoint <c>\Z...\</c>).
+/// </remarks>
 public static class Hl7Escape
 {
+    /// <summary>
+    /// Decodes HL7 escape sequences into their literal characters.
+    /// </summary>
+    /// <param name="value">Possibly escaped text.</param>
+    /// <param name="encoding">Delimiter set that defines separator/escape characters.</param>
+    /// <returns>Decoded text; returns <paramref name="value"/> unchanged when no escapes are present.</returns>
     public static string Decode(string value, Hl7EncodingCharacters encoding)
     {
         if (string.IsNullOrEmpty(value))
@@ -69,6 +82,12 @@ public static class Hl7Escape
         return result.ToString();
     }
 
+    /// <summary>
+    /// Encodes delimiter characters as HL7 escape sequences.
+    /// </summary>
+    /// <param name="value">Literal text that may contain delimiter characters.</param>
+    /// <param name="encoding">Delimiter set that defines which characters must be escaped.</param>
+    /// <returns>Wire-safe text with separators escaped.</returns>
     public static string Encode(string value, Hl7EncodingCharacters encoding)
     {
         if (string.IsNullOrEmpty(value))
@@ -94,6 +113,9 @@ public static class Hl7Escape
         return result.ToString();
     }
 
+    /// <summary>
+    /// Appends a single-codepoint <c>\X...\</c> escape, or the raw payload on failure.
+    /// </summary>
     private static bool TryAppendHexEscape(string value, StringBuilder result)
     {
         if (5 > value.Length)
@@ -112,6 +134,9 @@ public static class Hl7Escape
         return false;
     }
 
+    /// <summary>
+    /// Appends consecutive 4-digit hex code points from a <c>\Z...\</c> escape.
+    /// </summary>
     private static bool TryAppendMultiHexEscape(string value, StringBuilder result)
     {
         var index = 1;

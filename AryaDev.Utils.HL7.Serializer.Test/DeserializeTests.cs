@@ -283,6 +283,15 @@ public class DeserializeTests
     }
 
     [Fact]
+    public void Deserialize_FieldRepetitions_ExplicitRepetitionReturnsSingleRepetition()
+    {
+        var message = _serializer.Deserialize(SampleMessages.PidWithRepetitions);
+
+        message["PID.3~1"].ShouldBe("ID1^^^A^MR");
+        message["PID.3~2"].ShouldBe("ID2^^^B^SSN");
+    }
+
+    [Fact]
     public void Deserialize_SegmentRepetitions_AreAccessibleByOccurrence()
     {
         var message = _serializer.Deserialize(SampleMessages.MultipleObxSegments);

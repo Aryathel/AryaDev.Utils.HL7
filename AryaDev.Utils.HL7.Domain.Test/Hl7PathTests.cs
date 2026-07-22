@@ -5,22 +5,22 @@ namespace AryaDev.Utils.HL7.Domain.Test;
 public class Hl7PathTests
 {
     [Theory]
-    [InlineData("PID", "PID", 1, null, 1, null, null)]
-    [InlineData("pid", "PID", 1, null, 1, null, null)]
-    [InlineData("PID.5", "PID", 1, 5, 1, null, null)]
-    [InlineData("PID.5.1", "PID", 1, 5, 1, 1, null)]
-    [InlineData("PID.5.1.2", "PID", 1, 5, 1, 1, 2)]
-    [InlineData("PID[2].5", "PID", 2, 5, 1, null, null)]
+    [InlineData("PID", "PID", 1, null, null, null, null)]
+    [InlineData("pid", "PID", 1, null, null, null, null)]
+    [InlineData("PID.5", "PID", 1, 5, null, null, null)]
+    [InlineData("PID.5.1", "PID", 1, 5, null, 1, null)]
+    [InlineData("PID.5.1.2", "PID", 1, 5, null, 1, 2)]
+    [InlineData("PID[2].5", "PID", 2, 5, null, null, null)]
     [InlineData("PID.3~2", "PID", 1, 3, 2, null, null)]
     [InlineData("PID.3~2.1", "PID", 1, 3, 2, 1, null)]
     [InlineData("OBX[3].5~2.1.1", "OBX", 3, 5, 2, 1, 1)]
-    [InlineData("MSH.9.3", "MSH", 1, 9, 1, 3, null)]
+    [InlineData("MSH.9.3", "MSH", 1, 9, null, 3, null)]
     public void Parse_ValidPaths_ReturnsExpectedParts(
         string path,
         string segment,
         int occurrence,
         int? field,
-        int repetition,
+        int? repetition,
         int? component,
         int? subcomponent)
     {

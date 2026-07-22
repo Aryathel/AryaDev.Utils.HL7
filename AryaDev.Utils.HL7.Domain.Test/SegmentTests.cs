@@ -76,6 +76,54 @@ public class SegmentTests
         segment.GetValue("PID.3~1.1", Encoding).ShouldBe("ID1");
         segment.GetValue("PID.3~2.1", Encoding).ShouldBe("ID2");
         segment.GetValue("PID.3", Encoding).ShouldBe("ID1~ID2");
+        segment.GetValue("PID.3~1", Encoding).ShouldBe("ID1");
+        segment.GetValue("PID.3~2", Encoding).ShouldBe("ID2");
+    }
+
+    [Fact]
+    public void GetValue_FieldWithoutRepetition_ReturnsAllRepetitions()
+    {
+        var segment = new Segment("PID");
+        segment.SetFieldFromRaw(3, "ID1^^^A^MR~ID2^^^B^SSN", Encoding);
+
+        segment.GetValue("PID.3", Encoding).ShouldBe("ID1^^^A^MR~ID2^^^B^SSN");
+    }
+
+    [Fact]
+    public void GetValue_FieldWithExplicitRepetition_ReturnsOnlyThatRepetition()
+    {
+        var segment = new Segment("PID");
+        segment.SetFieldFromRaw(3, "ID1^^^A^MR~ID2^^^B^SSN", Encoding);
+
+        segment.GetValue("PID.3~1", Encoding).ShouldBe("ID1^^^A^MR");
+        segment.GetValue("PID.3~2", Encoding).ShouldBe("ID2^^^B^SSN");
+        segment.GetValue("PID.3~3", Encoding).ShouldBeNull();
+    }
+
+    [Fact]
+    public void SetValue_WithoutRepetition_StillTargetsFirstRepetition()
+    {
+        var segment = new Segment("PID");
+        segment.SetFieldFromRaw(3, "ID1^^^A^MR~ID2^^^B^SSN", Encoding);
+
+        segment.SetValue("PID.3.1", "NEWID", Encoding);
+
+        segment.GetValue("PID.3~1.1", Encoding).ShouldBe("NEWID");
+        segment.GetValue("PID.3~2.1", Encoding).ShouldBe("ID2");
+        segment.GetValue("PID.3", Encoding).ShouldBe("NEWID^^^A^MR~ID2^^^B^SSN");
+    }
+
+    [Fact]
+    public void SetValue_FieldWithoutRepetition_StillTargetsFirstRepetition()
+    {
+        var segment = new Segment("PID");
+        segment.SetFieldFromRaw(3, "OLD1~OLD2", Encoding);
+
+        segment.SetValue("PID.3", "NEW1^NEW2", Encoding);
+
+        segment.GetValue("PID.3~1", Encoding).ShouldBe("NEW1^NEW2");
+        segment.GetValue("PID.3~2", Encoding).ShouldBe("OLD2");
+        segment.GetValue("PID.3", Encoding).ShouldBe("NEW1^NEW2~OLD2");
     }
 
     [Fact]

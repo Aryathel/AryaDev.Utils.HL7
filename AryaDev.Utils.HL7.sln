@@ -8,6 +8,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AryaDev.Utils.HL7.Serialize
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AryaDev.Utils.HL7.Domain.Test", "AryaDev.Utils.HL7.Domain.Test\AryaDev.Utils.HL7.Domain.Test.csproj", "{C65C2584-98AF-4B66-90C8-A1EA57055CDC}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D2C55FBE-5A42-4B3B-8F68-FB4B1BD744D7}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

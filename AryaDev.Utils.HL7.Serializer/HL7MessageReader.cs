@@ -5,8 +5,17 @@ using AryaDev.Utils.HL7.Domain.Enumeration;
 
 namespace AryaDev.Utils.HL7.Serializer;
 
+/// <summary>
+/// Parses raw HL7 text or bytes into <see cref="HL7Message"/> instances.
+/// </summary>
 internal static class HL7MessageReader
 {
+    /// <summary>
+    /// Reads a message from bytes, resolving MSH-18 before decoding the full payload.
+    /// </summary>
+    /// <param name="raw">Message bytes.</param>
+    /// <returns>Parsed message; empty when <paramref name="raw"/> has zero length.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="raw"/> is null.</exception>
     internal static HL7Message Read(byte[] raw)
     {
         ArgumentNullException.ThrowIfNull(raw);
@@ -22,6 +31,12 @@ internal static class HL7MessageReader
         return Read(decoded, characterSet, textEncoding);
     }
 
+    /// <summary>
+    /// Reads a message from already-decoded text.
+    /// </summary>
+    /// <param name="raw">Message text.</param>
+    /// <returns>Parsed message.</returns>
+    /// <exception cref="ArgumentException">Thrown when <paramref name="raw"/> is null or whitespace.</exception>
     internal static HL7Message Read(string raw)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(raw);
@@ -33,6 +48,9 @@ internal static class HL7MessageReader
         return Read(raw, characterSet, textEncoding);
     }
 
+    /// <summary>
+    /// Parses segment lines and builds an <see cref="HL7Message"/>.
+    /// </summary>
     private static HL7Message Read(string raw, string? characterSet, Encoding textEncoding)
     {
         var normalized = raw.Replace("\r\n", "\r").Replace('\n', '\r');
@@ -65,6 +83,9 @@ internal static class HL7MessageReader
         return message;
     }
 
+    /// <summary>
+    /// Resolves MSH-18 and the corresponding .NET encoding from the first MSH line.
+    /// </summary>
     private static (string? CharacterSet, Encoding TextEncoding) ResolveCharacterSetFromMshLine(string mshLine)
     {
         if (!Hl7CharacterSet.TryGetMshEncodingFromLine(mshLine, out var mshEncoding))
@@ -75,6 +96,9 @@ internal static class HL7MessageReader
         return (characterSet, textEncoding);
     }
 
+    /// <summary>
+    /// Returns the byte length of the first segment line (up to CR/LF, or full buffer).
+    /// </summary>
     private static int FindFirstSegmentLength(byte[] raw)
     {
         for (var i = 0; i < raw.Length; i++)
@@ -84,6 +108,12 @@ internal static class HL7MessageReader
         return raw.Length;
     }
 
+    /// <summary>
+    /// Parses one segment line into a <see cref="Segment"/>.
+    /// </summary>
+    /// <remarks>
+    /// For MSH, field 1 is the field separator character and subsequent fields are offset by one.
+    /// </remarks>
     private static Segment ParseSegmentLine(string line, string segmentName, Hl7EncodingCharacters encoding)
     {
         var separator = encoding.FieldSeparator;

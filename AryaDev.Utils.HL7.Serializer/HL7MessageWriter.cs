@@ -5,8 +5,21 @@ using AryaDev.Utils.HL7.Domain.Enumeration;
 
 namespace AryaDev.Utils.HL7.Serializer;
 
+/// <summary>
+/// Writes <see cref="HL7Message"/> instances to pipe-delimited text or bytes.
+/// </summary>
 internal static class HL7MessageWriter
 {
+    /// <summary>
+    /// Serializes a message to CR-separated segment lines.
+    /// </summary>
+    /// <param name="message">Message to write.</param>
+    /// <returns>HL7 message text.</returns>
+    /// <remarks>
+    /// When MSH-9 / MSH-18 are empty, fills them from <see cref="HL7Message.MessageType"/> and
+    /// <see cref="HL7Message.TextEncoding"/> when those values are known.
+    /// </remarks>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="message"/> is null.</exception>
     internal static string Write(HL7Message message)
     {
         ArgumentNullException.ThrowIfNull(message);
@@ -28,6 +41,12 @@ internal static class HL7MessageWriter
         return builder.ToString();
     }
 
+    /// <summary>
+    /// Serializes a message to bytes using <see cref="HL7Message.TextEncoding"/>.
+    /// </summary>
+    /// <param name="message">Message to write.</param>
+    /// <returns>Encoded message bytes.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="message"/> is null.</exception>
     internal static byte[] WriteBytes(HL7Message message)
     {
         var text = Write(message);
@@ -35,9 +54,9 @@ internal static class HL7MessageWriter
     }
 
     /// <summary>
-    /// When MSH-9 is empty and <see cref="HL7Message.MessageType"/> is known, populate MSH-9 from the typed value.
-    /// Does not overwrite an existing MSH-9 value.
+    /// Populates MSH-9 from <see cref="HL7Message.MessageType"/> when MSH-9 is empty.
     /// </summary>
+    /// <remarks>Does not overwrite an existing MSH-9 value.</remarks>
     private static void ApplyMessageTypeIfMsh9Unset(HL7Message message)
     {
         if (message.MessageType == MessageType.Unknown)
@@ -51,6 +70,9 @@ internal static class HL7MessageWriter
             message["MSH.9"] = msh9;
     }
 
+    /// <summary>
+    /// Populates MSH-18 from <see cref="HL7Message.TextEncoding"/> when MSH-18 is empty.
+    /// </summary>
     private static void ApplyEncodingIfMsh18Unset(HL7Message message)
     {
         if (message.TextEncoding is null)
@@ -64,6 +86,9 @@ internal static class HL7MessageWriter
             message["MSH.18"] = msh18;
     }
 
+    /// <summary>
+    /// Writes a single segment line with escaped field values.
+    /// </summary>
     private static string WriteSegment(Segment segment, Hl7EncodingCharacters encoding)
     {
         var separator = encoding.FieldSeparator;
@@ -82,6 +107,9 @@ internal static class HL7MessageWriter
         return builder.ToString();
     }
 
+    /// <summary>
+    /// Finds the highest 1-based field number that has content.
+    /// </summary>
     private static int GetLastPopulatedField(Segment segment)
     {
         var fields = segment.Fields;
@@ -92,6 +120,9 @@ internal static class HL7MessageWriter
         return string.Equals(segment.Name, "MSH", StringComparison.Ordinal) ? 1 : 0;
     }
 
+    /// <summary>
+    /// Returns whether a field's nested storage contains meaningful content.
+    /// </summary>
     private static bool FieldHasContent(IReadOnlyList<IReadOnlyList<IReadOnlyList<string>>> repetitions)
     {
         foreach (var repetition in repetitions)

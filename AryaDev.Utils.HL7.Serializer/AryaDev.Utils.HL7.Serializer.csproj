@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageId>AryaDev.Utils.HL7</PackageId>
-        <Version>1.0.0-prerelease1</Version>
+        <Version>1.0.0-prerelease4</Version>
         <Authors>Arya Mayfield</Authors>
         <Description>A .NET library for working with HL7 v2.9.1 pipe-delimited messages. Messages are deserialized into a string-based model and fields are accessed using standard HL7 location notation (for example, PID.5.1 or PV1.3.2.1).</Description>
         <PackageIcon>AryathelLogo.png</PackageIcon>

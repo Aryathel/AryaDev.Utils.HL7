@@ -4,9 +4,14 @@ using AryaDev.Utils.HL7.Domain.Attributes;
 namespace AryaDev.Utils.HL7.Domain.Enumeration;
 
 /// <summary>
-/// Referenced from
-/// <see href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649">HL7 v2.9.1</see>.
+/// Known HL7 v2 segment types and their chapter associations.
 /// </summary>
+/// <remarks>
+/// Definitions follow
+/// <see href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649">HL7 v2.9.1</see>.
+/// Member codes/chapters are on <see cref="Attributes.SegmentInfoAttribute"/>;
+/// narrative text is on <see cref="System.ComponentModel.DescriptionAttribute"/>.
+/// </remarks>
 public enum SegmentType
 {
     [SegmentInfo("ADD", SegmentChapter.Control)]

@@ -4,12 +4,16 @@ using AryaDev.Utils.HL7.Domain.Attributes;
 namespace AryaDev.Utils.HL7.Domain.Enumeration;
 
 /// <summary>
-/// HL7 message types / Table 0354 message structures (MSH-9.3). Referenced from
-/// <see href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649">HL7 v2.9.1</see>.
+/// HL7 message types / Table 0354 message structures (MSH-9.3).
 /// </summary>
+/// <remarks>
+/// Codes and trigger notes come from
+/// <see href="https://www.hl7.org/implement/standards/product_brief.cfm?product_id=649">HL7 v2.9.1</see>.
+/// Member details are carried by <see cref="Attributes.MessageTypeInfoAttribute"/> and
+/// <see cref="System.ComponentModel.DescriptionAttribute"/>.
+/// </remarks>
 public enum MessageType
 {
-    /// <summary>Unrecognized, missing, or unparsable MSH-9 message type.</summary>
     [MessageTypeInfo("")]
     [Description("Unrecognized, missing, or unparsable MSH-9 message type.")]
     Unknown = 0,
